@@ -2,6 +2,193 @@
 
 This project demonstrates the UI rendering capabilities of the Model Context Protocol (MCP) by implementing a server that can create interactive dashboards, forms, and data visualizations.
 
+## Setup with Forked Repositories
+
+This example uses forked versions of the MCP protocol and TypeScript SDK that include UI rendering extensions. Follow these steps to set up the project:
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- Git
+
+### Step 1: Clone the Required Repositories
+
+You'll need to clone three repositories:
+
+```bash
+# 1. Clone the forked MCP protocol (contains UI schema extensions)
+git clone https://github.com/edonadei/modelcontextprotocol-supports-ui.git
+cd modelcontextprotocol-supports-ui
+
+# 2. Clone the forked TypeScript SDK (contains UI type support)
+git clone https://github.com/edonadei/typescript-sdk.git
+
+# 3. Clone the UI dashboard example
+git clone https://github.com/edonadei/mcp-ui-dashboard-example.git
+```
+
+### Step 2: Build the TypeScript SDK
+
+```bash
+# Navigate to the TypeScript SDK directory
+cd typescript-sdk
+
+# Install dependencies
+npm install
+
+# Build the SDK
+npm run build
+
+# Create a global link for local development
+npm link
+```
+
+### Step 3: Set Up the UI Dashboard Example
+
+```bash
+# Navigate to the example directory
+cd ../mcp-ui-dashboard-example
+
+# Install dependencies
+npm install
+
+# Link to your local TypeScript SDK
+npm link @modelcontextprotocol/sdk
+
+# Build the example
+npm run build
+```
+
+### Step 4: Run the Example
+
+```bash
+# Run the enhanced client example with detailed logging
+npm run client
+
+# Or run the server standalone
+npm start
+```
+
+## Alternative Setup Methods
+
+### Method 1: Using Git Dependencies
+
+Update your `package.json` to reference the forked repositories directly:
+
+```json
+{
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "git+https://github.com/edonadei/typescript-sdk.git"
+  }
+}
+```
+
+### Method 2: Using Local File Paths
+
+If you have all repositories in the same parent directory:
+
+```json
+{
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "file:../typescript-sdk"
+  }
+}
+```
+
+### Method 3: Publishing to npm (Recommended for Distribution)
+
+For easier distribution, consider publishing your forked packages:
+
+```bash
+# In the TypeScript SDK directory
+npm version patch
+npm publish --tag ui-extensions
+
+# Then users can install with:
+npm install @edonadei/mcp-sdk-ui
+```
+
+## Repository Structure
+
+When set up correctly, your directory structure should look like:
+
+```
+parent-directory/
+├── modelcontextprotocol-supports-ui/    # Forked MCP protocol with UI extensions
+│   └── schema/
+│       └── 2025-03-26/
+│           └── schema.ts                # Extended schema with UI types
+├── typescript-sdk/                     # Forked TypeScript SDK with UI support
+│   ├── src/
+│   │   └── types.ts                     # UI type definitions
+│   └── package.json
+└── mcp-ui-dashboard-example/            # This example project
+    ├── src/
+    │   ├── index.ts                     # MCP server with UI capabilities
+    │   └── client-example.ts            # Client with enhanced logging
+    └── package.json
+```
+
+## Verification
+
+To verify your setup is working correctly:
+
+1. **Check TypeScript compilation**:
+   ```bash
+   npm run build
+   ```
+
+2. **Run the client example**:
+   ```bash
+   npm run client
+   ```
+
+3. **Look for these indicators of success**:
+   - ✅ No TypeScript compilation errors
+   - ✅ Client connects to server successfully
+   - ✅ UI components are generated and analyzed
+   - ✅ Enhanced logging shows detailed component breakdowns
+
+## Troubleshooting
+
+### Common Issues
+
+**1. TypeScript compilation errors about UI types**
+```bash
+# Ensure you're using the forked SDK
+npm ls @modelcontextprotocol/sdk
+# Should show your local/forked version
+```
+
+**2. Module not found errors**
+```bash
+# Rebuild the TypeScript SDK
+cd ../typescript-sdk
+npm run build
+npm link
+
+# Re-link in the example project
+cd ../mcp-ui-dashboard-example
+npm link @modelcontextprotocol/sdk
+```
+
+**3. Server connection issues**
+```bash
+# Check that the server builds correctly
+npm run build
+node dist/index.js
+# Should show: "MCP UI Dashboard Server running on stdio"
+```
+
+### Getting Help
+
+If you encounter issues:
+
+1. Check that all three repositories are on the correct branches with UI extensions
+2. Verify Node.js version compatibility (18+)
+3. Ensure all dependencies are installed and built
+4. Check the enhanced logging output for specific error details
+
 ## Features
 
 ### 🎛️ Interactive Dashboards
